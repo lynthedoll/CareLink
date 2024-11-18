@@ -19,7 +19,6 @@ CareLink aims to address the following challenges:
 - **Local Healthcare Resource Recommendations**: Suggestions for nearby clinics and pharmacies for follow-up care.
 - **Accessibility Options**: High-contrast modes, screen-reader compatibility, and customizable interfaces for inclusivity.
 
-
 ---
 
 ## Getting Started
@@ -41,6 +40,24 @@ Run the application:
 npm start # run the application
 ```
 
+---
+
+## Document Initial Setup
+
+### README Structure
+
+The `README.md` file in the root directory serves as the central guide for the CareLink project. Below are the interaction guidelines:
+
+- **Folder Purposes**:
+  - `/src`: Contains the source code for the frontend application.
+  - `/backend`: Includes backend scripts, APIs, and database connection configurations.
+  - `/docs`: Stores project-related documentation, including design mockups, workflows, and technical specifications.
+
+- **Contribution Guidelines**:
+  - Fork the repository and create a feature branch for any new additions.
+  - Follow the naming convention for branches (e.g., `feature-name`, `bugfix-description`).
+  - Ensure code is linted and tested before committing.
+  - Submit pull requests to the `main` branch for review.
 
 ---
 
