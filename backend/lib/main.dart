@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'features/splash/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart'; // Assuming this exists
 import 'features/auth/screens/signup_screen.dart';
+import 'features/auth/screens/forgot_password_screen.dart';
 
 
 void main() {
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
-        // Add '/forgot-password' here when the screen is created
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        // Add the "location" screen here when the screen is created
       },
     );
   }

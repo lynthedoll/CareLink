@@ -47,10 +47,10 @@ class LoginScreen extends StatelessWidget {
                 child: const Text("Login"),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 12),              
               TextButton(
                 onPressed: () {
-                  // TODO: Navigate to forgot password screen
+                  Navigator.pushNamed(context, '/forgot-password');
                 },
                 child: const Text("Forgot Password?"),
               ),
