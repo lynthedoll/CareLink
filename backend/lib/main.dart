@@ -3,6 +3,7 @@ import 'features/splash/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart'; // Assuming this exists
 import 'features/auth/screens/signup_screen.dart';
 import 'features/auth/screens/forgot_password_screen.dart';
+import 'features/home/home_screen.dart';
 
 
 void main() {
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/home': (context) => const HomeScreen(),
         // Add the "location" screen here when the screen is created
       },
     );
