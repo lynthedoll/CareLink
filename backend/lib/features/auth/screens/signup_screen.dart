@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
 import '../components/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +17,11 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Image.asset(
                 'assets/images/carelink_logo.png',
-                height: 120,
+                height: 100,
               ),
               const SizedBox(height: 10),
               const Text(
-                'Welcome back!',
+                'Create your account',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -31,6 +30,10 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               const CustomTextField(
+                hintText: 'Full Name',
+              ),
+              const SizedBox(height: 12),
+              const CustomTextField(
                 hintText: 'Email',
               ),
               const SizedBox(height: 12),
@@ -38,29 +41,26 @@ class LoginScreen extends StatelessWidget {
                 hintText: 'Password',
                 obscureText: true,
               ),
-
+              const SizedBox(height: 12),
+              const CustomTextField(
+                hintText: 'Confirm Password',
+                obscureText: true,
+              ),
               const SizedBox(height: 20),
+
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Handle login logic
+                  // TODO: Handle sign-up logic
                 },
-                child: const Text("Login"),
+                child: const Text("Sign Up"),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  // TODO: Navigate to forgot password screen
+                  Navigator.pop(context);
                 },
-                child: const Text("Forgot Password?"),
-              ),
-
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: const Text("Don't have an account? Sign Up"),
+                child: const Text("Already have an account? Log In"),
               ),
             ],
           ),
