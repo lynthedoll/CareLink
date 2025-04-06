@@ -76,12 +76,14 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        ...options.map((option) => RadioListTile<String>(
-              title: Text(option),
-              value: option,
-              groupValue: groupValue,
-              onChanged: submitted ? null : onChanged,
-            )),
+        ...options.map(
+          (option) => RadioListTile<String>(
+            title: Text(option),
+            value: option,
+            groupValue: groupValue,
+            onChanged: submitted ? null : onChanged,
+          ),
+        ),
       ],
     );
   }
@@ -90,9 +92,8 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
-        backgroundColor: const Color(0xFFFDF1FF),
-        elevation: 0,
+        leading: const BackButton(color: Colors.black),
+        backgroundColor: const Color(0xFFDDF1FF),
         title: const Text('CareLink Intake Form', style: TextStyle(color: Colors.black)),
       ),
       backgroundColor: const Color(0xFFF9F9F9),
@@ -107,19 +108,23 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 24),
+
               TextFormField(controller: phoneController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Phone Number')),
               TextFormField(controller: dobController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Date of Birth')),
-              buildRadioGroup('Gender Identity', ['Woman', 'Man', 'Non-binary', 'Prefer not to say', 'Other'], gender, (value) => setState(() => gender = value)),
-              if (gender == 'Other')
-                TextFormField(controller: genderOtherController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Other (please specify)')),
+
+              buildRadioGroup('Gender Identity', ['Woman', 'Man', 'Non-binary', 'Prefer not to say'], gender, (value) => setState(() => gender = value)),
+              TextFormField(controller: genderOtherController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Other (please specify)')),
+
               TextFormField(controller: languageController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Preferred Language')),
+
               buildRadioGroup('Do you have health insurance?', ['Yes', 'No', 'Prefer not to say'], hasInsurance, (value) => setState(() => hasInsurance = value)),
-              if (hasInsurance == 'Yes')
-                TextFormField(controller: insuranceDetailsController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Insurance Provider and Plan')),
+              TextFormField(controller: insuranceDetailsController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Insurance Provider and Plan')),
+
               TextFormField(controller: appointmentReasonController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Reason(s) for Scheduling Appointment')),
               TextFormField(controller: conditionsController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Current/Chronic Medical Conditions')),
               TextFormField(controller: medicationsController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Current Medications')),
               TextFormField(controller: allergiesController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Allergies')),
+
               const SizedBox(height: 16),
               const Text('Preferred Appointment Times', style: TextStyle(fontWeight: FontWeight.bold)),
               buildCheckbox('Weekday mornings'),
@@ -127,12 +132,15 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
               buildCheckbox('Weekday evenings'),
               buildCheckbox('Weekends'),
               buildCheckbox('No preference'),
+
               TextFormField(controller: timezoneController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Time Zone')),
+
               buildRadioGroup('Preferred Communication Method', ['Email', 'Text/SMS', 'Phone call'], communicationMethod, (value) => setState(() => communicationMethod = value)),
               TextFormField(controller: accommodationsController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Accessibility Accommodations')),
-              buildRadioGroup('How did you hear about CareLink?', ['Friend or family', 'Social media', 'School or university', 'Doctor referral', 'Online search', 'Other'], referralSource, (value) => setState(() => referralSource = value)),
-              if (referralSource == 'Other')
-                TextFormField(controller: referralOtherController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Other (please specify)')),
+
+              buildRadioGroup('How did you hear about CareLink?', ['Friend or family', 'Social media', 'School or university', 'Doctor referral', 'Online search'], referralSource, (value) => setState(() => referralSource = value)),
+              TextFormField(controller: referralOtherController, enabled: !submitted, decoration: const InputDecoration(labelText: 'Other (please specify)')),
+
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: submitted ? null : handleSubmit,
@@ -143,7 +151,10 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text('Submit', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                ),
               ),
             ],
           ),

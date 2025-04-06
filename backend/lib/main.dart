@@ -3,10 +3,12 @@ import 'features/splash/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart'; 
 import 'features/auth/screens/signup_screen.dart';
 import 'features/auth/screens/forgot_password_screen.dart';
-import 'features/home/home_screen.dart';
+// import 'features/home/home_screen.dart';
 import 'features/home/intake_form.dart';
 import 'features/home/carelink_experience_survey.dart';
 import 'features/home/provider_feedback_survey.dart';
+import 'navigation/main_screen_wrapper.dart';
+
 
 
 void main() {
@@ -44,11 +46,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => const MainScreenWrapper(),
         '/intake-form': (context) => const CarelinkIntakeForm(),
         '/survey-carelink': (context) => const CarelinkExperienceSurvey(),
         '/survey-provider': (context) => const ProviderFeedbackSurvey(),
-
         // Add the "location" screen here when the screen is created
       },
     );
