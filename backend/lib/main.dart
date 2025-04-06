@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'features/splash/screens/splash_screen.dart';
-import 'features/auth/screens/login_screen.dart'; // Assuming this exists
+import 'features/auth/screens/login_screen.dart'; 
 import 'features/auth/screens/signup_screen.dart';
 import 'features/auth/screens/forgot_password_screen.dart';
 import 'features/home/home_screen.dart';
+import 'features/home/intake_form.dart';
+import 'features/home/carelink_experience_survey.dart';
+import 'features/home/provider_feedback_survey.dart';
 
 
 void main() {
@@ -42,6 +45,10 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/home': (context) => const HomeScreen(),
+        '/intake-form': (context) => const CarelinkIntakeForm(),
+        '/survey-carelink': (context) => const CarelinkExperienceSurvey(),
+        '/survey-provider': (context) => const ProviderFeedbackSurvey(),
+
         // Add the "location" screen here when the screen is created
       },
     );

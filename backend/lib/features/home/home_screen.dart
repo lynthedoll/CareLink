@@ -31,13 +31,7 @@ class HomeScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  
-                  
-                  
-                  
-                  
-                  
+                children: [ 
                   InkWell(
                     onTap: _onProfileTapped,
                     borderRadius: BorderRadius.circular(30),
@@ -87,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: _onLogoTapped,
                         borderRadius: BorderRadius.circular(20),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0), // for easier tap area
+                          padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
                             'assets/images/logo_icon.png',
                             height: 28,
@@ -95,13 +89,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      
-                      
-                      
-                      
-                      
-
-
                       InkWell(
                         onTap: _onNotificationTapped,
                         borderRadius: BorderRadius.circular(20),
@@ -364,7 +351,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/intake-form');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
@@ -426,7 +415,9 @@ class HomeScreen extends StatelessWidget {
                     const Text('Tell us how CareLink is working for you.'),
                     const SizedBox(height: 8),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/survey-carelink');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
@@ -448,9 +439,11 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const Text('Tell us how your provider experience went.'),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 8), 
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/survey-provider');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
@@ -477,4 +470,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
