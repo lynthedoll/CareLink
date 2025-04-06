@@ -75,62 +75,103 @@ class HomeScreen extends StatelessWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEFE7FF),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Stack(
+                      clipBehavior: Clip.none,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        // Purple card background
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFD9C6FF),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 12,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: Row(
                             children: [
-                              const Text(
-                                'Dr. Asha Vali',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Internal Medicine',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(Icons.schedule,
-                                        size: 18, color: Colors.black54),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Dec 19, 9:00 a.m.',
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ],
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Dr. Asha Vali',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Internal Medicine',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const [
+                                            Icon(Icons.schedule,
+                                                size: 18,
+                                                color: Colors.black54),
+                                            SizedBox(width: 8),
+                                            Text(
+                                              'Dec 19, 9:00 a.m.',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+
+                        // Circle behind content but inside card
+                        Positioned(
+                          bottom: 18,
+                          right: -40,
+                          child: Container(
+                            width: 275,
+                            height: 275,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFEFEFFF),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
+
+                  // Doctor image sticking out of top, aligned with bottom
                   Positioned(
                     bottom: 0,
                     right: 8,
