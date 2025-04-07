@@ -173,7 +173,7 @@ class HomeScreen extends StatelessWidget {
                                               Icon(Icons.schedule, size: 18, color: Colors.black54),
                                               SizedBox(width: 8),
                                               Text(
-                                                'Dec 19, 9:00 a.m.',
+                                                'May 28, 9:00 a.m.',
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,

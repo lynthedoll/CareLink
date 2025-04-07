@@ -8,6 +8,17 @@ import 'features/home/intake_form.dart';
 import 'features/home/carelink_experience_survey.dart';
 import 'features/home/provider_feedback_survey.dart';
 import 'navigation/main_screen_wrapper.dart';
+import 'features/profile/profile_screen.dart';
+import 'features/profile/edit_profile.dart';
+import 'features/profile/favorites.dart';
+import 'features/profile/payment_method.dart';
+import 'features/profile/privacy_policy.dart';
+import 'features/profile/settings.dart';
+import 'features/profile/help.dart';
+
+
+
+
 
 
 
@@ -50,6 +61,13 @@ class MyApp extends StatelessWidget {
         '/intake-form': (context) => const CarelinkIntakeForm(),
         '/survey-carelink': (context) => const CarelinkExperienceSurvey(),
         '/survey-provider': (context) => const ProviderFeedbackSurvey(),
+        '/profile': (context) => const ProfileScreen(),
+        '/edit-profile': (context) => const EditProfileScreen(),
+        '/favorites': (context) => const FavoriteScreen(),
+        '/payment': (context) => const PaymentScreen(),
+        '/privacy-policy': (context) => const PrivacyPolicyScreen(),
+        '/help': (context) => const HelpScreen(),
+        '/settings': (context) => const SettingsScreen(),
         // Add the "location" screen here when the screen is created
       },
     );

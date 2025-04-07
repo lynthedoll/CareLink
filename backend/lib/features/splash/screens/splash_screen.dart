@@ -87,7 +87,7 @@ class SplashScreen extends StatefulWidget {
     this.routeName,
   })  : assert(
           routeName == null ||
-              (routeName is String && routeName.startsWith('/')),
+              (routeName.startsWith('/')),
           'routeName must be a String beginning with forward slash (/)',
         ),
         assert(
@@ -108,8 +108,7 @@ class SplashScreen extends StatefulWidget {
         ),
         assert(
           navigateAfterSeconds is! String ||
-              (navigateAfterSeconds is String &&
-                  navigateAfterSeconds.startsWith('/')),
+              (navigateAfterSeconds.startsWith('/')),
           'navigateAfterSeconds must be a String beginning with forward slash (/)',
         );
 
