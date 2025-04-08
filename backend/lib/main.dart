@@ -15,6 +15,7 @@ import 'features/profile/payment_method.dart';
 import 'features/profile/privacy_policy.dart';
 import 'features/profile/settings.dart';
 import 'features/profile/help.dart';
+import 'features/meds/med_screen.dart';
 
 
 
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         '/privacy-policy': (context) => const PrivacyPolicyScreen(),
         '/help': (context) => const HelpScreen(),
         '/settings': (context) => const SettingsScreen(),
+        '/meds': (context) => const MedScreen(),
         // Add the "location" screen here when the screen is created
       },
     );
