@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
 
 class MedScreen extends StatelessWidget {
   const MedScreen({super.key});
@@ -20,8 +21,17 @@ class MedScreen extends StatelessWidget {
     }
   }
 
-  void _onProfileTapped() => print("Profile icon tapped");
-  void _onLogoTapped() => print("Logo tapped");
+  void _onProfileTapped(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 4)),
+    );
+  }
+
+  void _onLogoTapped(BuildContext context) {
+    Navigator.pushNamed(context, '/about-carelink');
+  }
+
   void _onNotificationTapped() => print("Notification tapped");
 
   void _onAddMedicationTapped(BuildContext context) {
@@ -154,7 +164,7 @@ class MedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: _onProfileTapped,
+                    onTap: () => _onProfileTapped(context),
                     borderRadius: BorderRadius.circular(30),
                     child: ClipOval(
                       child: Image.asset(
@@ -168,7 +178,7 @@ class MedScreen extends StatelessWidget {
                   Row(
                     children: [
                       InkWell(
-                        onTap: _onLogoTapped,
+                        onTap: () => _onLogoTapped(context),
                         borderRadius: BorderRadius.circular(20),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

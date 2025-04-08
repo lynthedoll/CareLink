@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
 
 final String loggedInUserName = 'Jamiliah';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void _onProfileTapped() {
-    print("Profile icon tapped");
+  void _onProfileTapped(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 4)),
+    );
   }
-
-  void _onLogoTapped() {
-    print("Logo tapped");
+  
+  void _onLogoTapped(BuildContext context) {
+    Navigator.pushNamed(context, '/about-carelink');
   }
 
   void _onNotificationTapped() {
@@ -33,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [ 
                   InkWell(
-                    onTap: _onProfileTapped,
+                    onTap: () => _onProfileTapped(context),
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
                       decoration: const BoxDecoration(
@@ -78,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       InkWell(
-                        onTap: _onLogoTapped,
+                        onTap: () => _onLogoTapped(context),
                         borderRadius: BorderRadius.circular(20),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

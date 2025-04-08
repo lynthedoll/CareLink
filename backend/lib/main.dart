@@ -16,9 +16,7 @@ import 'features/profile/privacy_policy.dart';
 import 'features/profile/settings.dart';
 import 'features/profile/help.dart';
 import 'features/meds/med_screen.dart';
-
-
-
+import 'features/about/about_carelink_screen.dart'; // Add this with your other imports
 
 
 
@@ -70,6 +68,8 @@ class MyApp extends StatelessWidget {
         '/help': (context) => const HelpScreen(),
         '/settings': (context) => const SettingsScreen(),
         '/meds': (context) => const MedScreen(),
+        '/about-carelink': (context) => const AboutCareLinkScreen(),
+
         // Add the "location" screen here when the screen is created
       },
     );
