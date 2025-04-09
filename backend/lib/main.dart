@@ -3,7 +3,6 @@ import 'features/splash/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart'; 
 import 'features/auth/screens/signup_screen.dart';
 import 'features/auth/screens/forgot_password_screen.dart';
-// import 'features/home/home_screen.dart';
 import 'features/home/intake_form.dart';
 import 'features/home/carelink_experience_survey.dart';
 import 'features/home/provider_feedback_survey.dart';
@@ -16,7 +15,10 @@ import 'features/profile/privacy_policy.dart';
 import 'features/profile/settings.dart';
 import 'features/profile/help.dart';
 import 'features/meds/med_screen.dart';
-import 'features/about/about_carelink_screen.dart'; // Add this with your other imports
+import 'features/about/about_carelink_screen.dart'; 
+import 'features/care/dr_thompson_screen.dart';
+import 'features/care/dr_vali_screen.dart';
+
 
 
 
@@ -69,8 +71,10 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreen(),
         '/meds': (context) => const MedScreen(),
         '/about-carelink': (context) => const AboutCareLinkScreen(),
+        '/doctor-thompson': (context) => const DrThompsonScreen(),
+        '/doctor-vali': (context) => const DrValiScreen(),
 
-        // Add the "location" screen here when the screen is created
+
       },
     );
   }

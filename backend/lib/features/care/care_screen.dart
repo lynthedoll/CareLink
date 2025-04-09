@@ -96,10 +96,11 @@ class _CareScreenState extends State<CareScreen> {
 
   void _toggleFavorite(Map<String, String> doctor) {
     setState(() {
-      final alreadyFavorited = favoriteDoctors.any(
-          (fav) => fav['name'] == doctor['name']);
+      final alreadyFavorited =
+          favoriteDoctors.any((fav) => fav['name'] == doctor['name']);
       if (alreadyFavorited) {
-        favoriteDoctors.removeWhere((fav) => fav['name'] == doctor['name']);
+        favoriteDoctors
+            .removeWhere((fav) => fav['name'] == doctor['name']);
       } else {
         favoriteDoctors.add(doctor);
       }
@@ -114,7 +115,8 @@ class _CareScreenState extends State<CareScreen> {
     if (name.contains("Thompson") ||
         name.contains("Anderson") ||
         name.contains("Vali")) {
-      Navigator.pushNamed(context, '/doctor-${name.toLowerCase().split(' ').last}');
+      Navigator.pushNamed(
+          context, '/doctor-${name.toLowerCase().split(' ').last}');
     }
   }
 
@@ -125,8 +127,8 @@ class _CareScreenState extends State<CareScreen> {
               .toLowerCase()
               .contains(_searchQuery) ||
           doctor['specialty']!.toLowerCase().contains(_searchQuery);
-      final matchesFilter =
-          _selectedSpecialty.isEmpty || doctor['specialty'] == _selectedSpecialty;
+      final matchesFilter = _selectedSpecialty.isEmpty ||
+          doctor['specialty'] == _selectedSpecialty;
       return matchesSearch && matchesFilter;
     }).toList();
 
@@ -140,7 +142,10 @@ class _CareScreenState extends State<CareScreen> {
             children: [
               const Text(
                 'Doctors',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 12),
               Row(
@@ -170,7 +175,10 @@ class _CareScreenState extends State<CareScreen> {
                         shape: BoxShape.circle,
                         color: Color(0xFFDDD9FF),
                       ),
-                      child: const Icon(Icons.filter_alt, color: Colors.deepPurple),
+                      child: const Icon(
+                        Icons.filter_alt,
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
                 ],
@@ -179,7 +187,8 @@ class _CareScreenState extends State<CareScreen> {
               Expanded(
                 child: GridView.builder(
                   itemCount: filteredDoctors.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.78,
                     mainAxisSpacing: 16,
@@ -188,12 +197,19 @@ class _CareScreenState extends State<CareScreen> {
                   itemBuilder: (context, index) {
                     final doc = filteredDoctors[index];
                     final isFav = _isFavorited(doc);
-                    return GestureDetector(
+
+                    return InkWell(
                       onTap: () => _onDoctorTapped(doc['name']!),
+                      borderRadius: BorderRadius.circular(16),
+                      splashColor: Colors.purple.withOpacity(0.2),
+                      highlightColor: Colors.purple.withOpacity(0.1),
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFFE4E1FF), Color(0xFFFFFFFF)],
+                            colors: [
+                              Color(0xFFE4E1FF),
+                              Color(0xFFFFFFFF),
+                            ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -230,11 +246,17 @@ class _CareScreenState extends State<CareScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.star, size: 16, color: Colors.purple),
+                                const Icon(
+                                  Icons.star,
+                                  size: 16,
+                                  color: Colors.purple,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   doc['rating']!,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 const SizedBox(width: 4),
                                 Text("(${doc['reviews']} reviews)"),
@@ -255,7 +277,9 @@ class _CareScreenState extends State<CareScreen> {
                                   Text(
                                     'Favorite',
                                     style: TextStyle(
-                                      color: isFav ? Colors.red : Colors.grey,
+                                      color: isFav
+                                          ? Colors.red
+                                          : Colors.grey,
                                     ),
                                   ),
                                 ],
