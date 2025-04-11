@@ -9,6 +9,27 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     return '${date.month}/${date.day}/${date.year}';
   }
 
+  String _formatPrettyDate(DateTime date) {
+    const monthNames = [
+      '', 'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    final day = date.day;
+    final suffix = (day >= 11 && day <= 13)
+        ? 'th'
+        : (day % 10 == 1)
+            ? 'st'
+            : (day % 10 == 2)
+                ? 'nd'
+                : (day % 10 == 3)
+                    ? 'rd'
+                    : 'th';
+
+    return '${monthNames[date.month]} $day$suffix, ${date.year}';
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
@@ -22,10 +43,18 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     final age = args['age'];
     final gender = args['gender'];
     final reason = args['reason'];
-
+    
     // Create a formatted notification
     final notificationMessage =
-        'Appointment confirmed with $doctor ($specialty) on ${_formatDate(date)} at $time.';
+        'Appointment with $doctor ($specialty) on ${_formatPrettyDate(date)} at $time.';
+        updateLatestAppointment({
+          'date': date,
+          'time': time,
+          'doctor': doctor,
+          'specialty': specialty,
+          'image': image,
+        });
+
 
     // Add to notifications list and reset badge view
     addNotification(notificationMessage);

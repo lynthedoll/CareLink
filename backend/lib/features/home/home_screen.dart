@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../navigation/main_screen_wrapper.dart';
 import '../notifications/notification_data.dart';
 
+
 final String loggedInUserName = 'Jamiliah';
 
 class HomeScreen extends StatefulWidget {
@@ -31,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appointment = latestScheduledAppointment;
+    final hasUpcoming = appointment != null;
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: SafeArea(
@@ -187,18 +190,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(left: 8),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Dr. Asha Vali',
-                                          style: TextStyle(
+                                      children: [    
+                                        Text(
+                                          hasUpcoming ? appointment['doctor'] : 'Dr. Asha Vali',
+                                          style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         const SizedBox(height: 4),
-                                        const Text(
-                                          'Internal Medicine',
-                                          style: TextStyle(
+                                        Text(
+                                          hasUpcoming ? appointment['specialty'] : 'Internal Medicine',
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.black54,
                                           ),
@@ -215,12 +218,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: const [
+                                            children: [
                                               Icon(Icons.schedule, size: 18, color: Colors.black54),
                                               SizedBox(width: 8),
                                               Text(
-                                                'May 28, 9:00 a.m.',
-                                                style: TextStyle(
+                                                hasUpcoming ? appointment['time'] : 'May 28, 9:00 a.m.',
+                                                style: const TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -252,11 +255,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: 0,
+                    bottom: hasUpcoming && appointment['doctor'] == 'Dr. Linda Thompson' ? -9.5 : 0,
                     right: 8,
-                    child: Image.asset(
-                      'assets/images/doctor1_icon.png',
-                      height: 195,
+                    child: Transform.translate(
+                      offset: hasUpcoming && appointment['doctor'] == 'Dr. Linda Thompson'
+                        ? const Offset(0, 0)  // leave Thompson’s position unchanged
+                        : const Offset(300, 325), // move Vali down to align with card bottom
+                      child: Image.asset(
+                        hasUpcoming && appointment['doctor'] == 'Dr. Linda Thompson'
+                          ? 'assets/images/doctor2_icon.png'
+                          : 'assets/images/doctor1_icon.png',
+                        height: hasUpcoming && appointment['doctor'] == 'Dr. Linda Thompson'
+                          ? 195
+                          : 850, // enlarge Dr. Vali to match Thompson’s visual size
+                      ),
                     ),
                   ),
                 ],

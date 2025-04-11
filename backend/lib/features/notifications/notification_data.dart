@@ -1,7 +1,7 @@
 // notification_data.dart
 
 List<String> notifications = [
-  'Appointment with Dr. Asha Vali (Internal Medicine) on May 28th at 9:00AM'
+  'Appointment with Dr. Asha Vali (Internal Medicine) on May 28th, 2025 at 9:00AM'
 ];
 
 bool notificationsViewed = false;
@@ -22,3 +22,13 @@ void addNotification(String newMessage) {
 bool shouldShowNotificationBadge() {
   return !notificationsViewed && notifications.isNotEmpty;
 }
+
+Map<String, dynamic>? latestScheduledAppointment;
+
+void updateLatestAppointment(Map<String, dynamic> newAppointment) {
+  if (latestScheduledAppointment == null ||
+      newAppointment['date'].isBefore(latestScheduledAppointment!['date'])) {
+    latestScheduledAppointment = newAppointment;
+  }
+}
+

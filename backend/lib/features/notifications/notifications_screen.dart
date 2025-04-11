@@ -43,7 +43,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           ? const Center(child: Text('No notifications available.'))
           : ListView.separated(
               padding: const EdgeInsets.all(16),
-              itemCount: notifications.length,
+              itemCount: notifications.reversed.length,
               separatorBuilder: (_, __) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 return InkWell(
@@ -115,7 +115,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                notifications[index],
+                                notifications.reversed.toList()[index],
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
