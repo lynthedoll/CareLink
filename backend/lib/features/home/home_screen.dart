@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../navigation/main_screen_wrapper.dart';
+import '../notifications/notification_data.dart';
 
 final String loggedInUserName = 'Jamiliah';
 
@@ -12,13 +13,13 @@ class HomeScreen extends StatelessWidget {
       MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 4)),
     );
   }
-  
+
   void _onLogoTapped(BuildContext context) {
     Navigator.pushNamed(context, '/about-carelink');
   }
 
-  void _onNotificationTapped() {
-    print("Notification tapped");
+  void _onNotificationTapped(BuildContext context) {
+    Navigator.pushNamed(context, '/notifications');
   }
 
   @override
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [ 
+                children: [
                   InkWell(
                     onTap: () => _onProfileTapped(context),
                     borderRadius: BorderRadius.circular(30),
@@ -59,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),  
+                  ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -93,16 +94,48 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      InkWell(
-                        onTap: _onNotificationTapped,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/notification_icon.png',
-                            height: 28,
+                      Stack(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              markNotificationsAsViewed();
+                              _onNotificationTapped(context);
+                            },
+                            borderRadius: BorderRadius.circular(20),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                'assets/images/notification_icon.png',
+                                height: 28,
+                              ),
+                            ),
                           ),
-                        ),
+                          if (!notificationsViewed && notifications.isNotEmpty)
+                            Positioned(
+                              right: 6,
+                              top: 6,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 18,
+                                  minHeight: 18,
+                                ),
+                                child: Text(
+                                  '${notifications.length}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),
@@ -443,7 +476,7 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const Text('Tell us how your provider experience went.'),
-                    const SizedBox(height: 8), 
+                    const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/survey-provider');
@@ -474,3 +507,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

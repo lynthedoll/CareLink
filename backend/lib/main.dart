@@ -18,6 +18,13 @@ import 'features/meds/med_screen.dart';
 import 'features/about/about_carelink_screen.dart'; 
 import 'features/care/dr_thompson_screen.dart';
 import 'features/care/dr_vali_screen.dart';
+import 'features/care/dr_thompson_appointment_screen.dart';
+import 'features/care/appointment_form_screen.dart';
+import 'features/care/appointment_confirmation_screen.dart';
+import 'features/notifications/notifications_screen.dart';
+import 'features/care/dr_vali_appointment_screen.dart';
+
+
 
 
 
@@ -71,8 +78,17 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreen(),
         '/meds': (context) => const MedScreen(),
         '/about-carelink': (context) => const AboutCareLinkScreen(),
-        '/doctor-thompson': (context) => const DrThompsonScreen(),
         '/doctor-vali': (context) => const DrValiScreen(),
+        '/doctor-thompson': (context) => const DrThompsonScreen(),
+        '/care-tab-3': (context) => const DrThompsonAppointmentScreen(),
+        '/appointment-form': (context) => const AppointmentFormScreen(),
+        '/appointment-confirmation': (context) => const AppointmentConfirmationScreen(),
+        '/notifications': (context) => const NotificationsScreen(),
+        '/care-tab-vali': (context) => const DrValiAppointmentScreen(),
+        '/appointment-confirmation': (context) => const AppointmentConfirmationScreen(),
+
+        
+        // other routes...
 
 
       },

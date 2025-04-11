@@ -66,7 +66,7 @@ class DrValiScreen extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/care-tab-3');
+                        Navigator.pushNamed(context, '/care-tab-vali');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF28A745),
