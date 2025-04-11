@@ -4,8 +4,14 @@ import '../notifications/notification_data.dart';
 
 final String loggedInUserName = 'Jamiliah';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 
   void _onProfileTapped(BuildContext context) {
     Navigator.pushReplacement(
@@ -18,8 +24,9 @@ class HomeScreen extends StatelessWidget {
     Navigator.pushNamed(context, '/about-carelink');
   }
 
-  void _onNotificationTapped(BuildContext context) {
-    Navigator.pushNamed(context, '/notifications');
+  void _onNotificationTapped(BuildContext context) async {
+    await Navigator.pushNamed(context, '/notifications');
+    setState(() {}); // Refresh UI when returning
   }
 
   @override
@@ -110,35 +117,37 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (!notificationsViewed && notifications.isNotEmpty)
+                          
+                          if (notificationsViewed == false && notifications.isNotEmpty)
                             Positioned(
-                              right: 6,
-                              top: 6,
+                              right: 4,
+                              top: 4,
                               child: Container(
-                                padding: const EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(2),
                                 decoration: const BoxDecoration(
                                   color: Colors.red,
                                   shape: BoxShape.circle,
                                 ),
                                 constraints: const BoxConstraints(
-                                  minWidth: 18,
-                                  minHeight: 18,
+                                  minWidth: 14,
+                                  minHeight: 14,
                                 ),
                                 child: Text(
                                   '${notifications.length}',
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 11,
+                                    fontSize: 9,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
-                        ],
-                      ),
-                    ],
-                  ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  
                 ],
               ),
               const SizedBox(height: 24),

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../navigation/main_screen_wrapper.dart';
+import '../notifications/notification_data.dart';
 
-class MedScreen extends StatelessWidget {
+
+class MedScreen extends StatefulWidget {
   const MedScreen({super.key});
+
+  @override
+  State<MedScreen> createState() => _MedScreenState();
+}
+
+class _MedScreenState extends State<MedScreen> {
 
   final List<Map<String, String>> ongoingMeds = const [
     {"name": "Zyrtec", "time": "Morning", "status": "Good Standing", "type": "pill"},
@@ -32,7 +40,11 @@ class MedScreen extends StatelessWidget {
     Navigator.pushNamed(context, '/about-carelink');
   }
 
-  void _onNotificationTapped() => print("Notification tapped");
+  void _onNotificationTapped(BuildContext context) async {
+    await Navigator.pushNamed(context, '/notifications');
+    setState(() {}); // Refresh UI when returning
+  }
+
 
   void _onAddMedicationTapped(BuildContext context) {
     showDialog(
@@ -155,7 +167,7 @@ class MedScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: SafeArea(
-        child: SingleChildScrollView( // Fixes overflow
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Column(
             children: [
@@ -186,13 +198,42 @@ class MedScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      InkWell(
-                        onTap: _onNotificationTapped,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset('assets/images/notification_icon.png', height: 28),
-                        ),
+                      Stack(
+                        children: [
+                          InkWell(
+                            onTap: () => _onNotificationTapped(context),
+                            borderRadius: BorderRadius.circular(20),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset('assets/images/notification_icon.png', height: 28),
+                            ),
+                          ),
+                          if (notificationsViewed == false && notifications.isNotEmpty)
+                            Positioned(
+                              right: 4,
+                              top: 4,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 14,
+                                  minHeight: 14,
+                                ),
+                                child: Text(
+                                  '${notifications.length}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   )

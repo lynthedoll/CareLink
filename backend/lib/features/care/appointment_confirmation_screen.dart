@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../notifications/notification_data.dart';
 import '../../navigation/main_screen_wrapper.dart';
-
 
 class AppointmentConfirmationScreen extends StatelessWidget {
   const AppointmentConfirmationScreen({super.key});
@@ -23,11 +23,12 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     final gender = args['gender'];
     final reason = args['reason'];
 
-    // Fake "add to notification" - simulate in-memory for now
+    // Create a formatted notification
     final notificationMessage =
         'Appointment confirmed with $doctor ($specialty) on ${_formatDate(date)} at $time.';
 
-    // Optional: store to in-memory notification list if you create one
+    // Add to notifications list and reset badge view
+    addNotification(notificationMessage);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +55,6 @@ class AppointmentConfirmationScreen extends StatelessWidget {
               backgroundImage: AssetImage(image),
             ),
             const SizedBox(height: 20),
-
             const Text(
               'Your Appointment is Confirmed!',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -84,7 +84,7 @@ class AppointmentConfirmationScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
