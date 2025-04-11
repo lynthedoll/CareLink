@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,6 +19,52 @@ class ProfileScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditPictureOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_library),
+            title: const Text('Choose from Library'),
+            onTap: () {
+              Navigator.pop(context);
+              _showMockupMessage(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text('Take Picture'),
+            onTap: () {
+              Navigator.pop(context);
+              _showMockupMessage(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showMockupMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Mockup'),
+        content: const Text('This is just a mockup! Feature coming soon.'),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () => Navigator.pop(context),
           ),
         ],
       ),
@@ -83,10 +129,7 @@ class ProfileScreen extends StatelessWidget {
                   right: 0,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
-                    onTap: () {
-                      // Placeholder for future functionality
-                      print('Edit picture tapped');
-                    },
+                    onTap: () => _showEditPictureOptions(context),
                     child: SizedBox(
                       height: 40,
                       width: 40,
