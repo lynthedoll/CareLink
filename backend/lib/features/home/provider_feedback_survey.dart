@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class ProviderFeedbackSurvey extends StatefulWidget {
   const ProviderFeedbackSurvey({super.key});
@@ -62,7 +64,7 @@ class _ProviderFeedbackSurveyState extends State<ProviderFeedbackSurvey> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         backgroundColor: const Color(0xFFE7E4FB),
         elevation: 0,
         title: const Text(
@@ -100,6 +102,15 @@ class _ProviderFeedbackSurveyState extends State<ProviderFeedbackSurvey> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 0,
+        onTabSelected: (index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

@@ -23,12 +23,8 @@ import 'features/care/appointment_form_screen.dart';
 import 'features/care/appointment_confirmation_screen.dart';
 import 'features/notifications/notifications_screen.dart';
 import 'features/care/dr_vali_appointment_screen.dart';
-
-
-
-
-
-
+import 'features/home/subscription_detail_screen.dart' as detail;
+import 'features/home/subscriptions_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -85,10 +81,10 @@ class MyApp extends StatelessWidget {
         '/appointment-confirmation': (context) => const AppointmentConfirmationScreen(),
         '/notifications': (context) => const NotificationsScreen(),
         '/care-tab-vali': (context) => const DrValiAppointmentScreen(),
-        '/appointment-confirmation': (context) => const AppointmentConfirmationScreen(),
+        '/subscriptions': (context) => const SubscriptionsScreen(),
+        '/subscription-detail': (context) => const detail.SubscriptionDetailScreen(),
 
-        
-        // other routes...
+        // Other routes
 
 
       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../navigation/main_screen_wrapper.dart';
 import '../notifications/notification_data.dart';
-
+import '../../shared/subscription_data.dart';
 
 final String loggedInUserName = 'Jamiliah';
 
@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   void _onProfileTapped(BuildContext context) {
     Navigator.pushReplacement(
       context,
@@ -27,13 +26,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onNotificationTapped(BuildContext context) async {
     await Navigator.pushNamed(context, '/notifications');
-    setState(() {}); // Refresh UI when returning
+    setState(() {});
+  }
+
+  void updateSubscriptions(Map<String, dynamic> newCategory) {
+    if (!subscribedCategories.any((c) => c['title'] == newCategory['title'])) {
+      setState(() {
+        subscribedCategories.add(newCategory);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final appointment = latestScheduledAppointment;
     final hasUpcoming = appointment != null;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: SafeArea(
@@ -97,10 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(20),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/logo_icon.png',
-                            height: 28,
-                          ),
+                          child: Image.asset('assets/images/logo_icon.png', height: 28),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -114,14 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(20),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                'assets/images/notification_icon.png',
-                                height: 28,
-                              ),
+                              child: Image.asset('assets/images/notification_icon.png', height: 28),
                             ),
                           ),
-                          
-                          if (notificationsViewed == false && notifications.isNotEmpty)
+                          if (!notificationsViewed && notifications.isNotEmpty)
                             Positioned(
                               right: 4,
                               top: 4,
@@ -131,10 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.red,
                                   shape: BoxShape.circle,
                                 ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 14,
-                                  minHeight: 14,
-                                ),
+                                constraints: const BoxConstraints(minWidth: 14, minHeight: 14),
                                 child: Text(
                                   '${notifications.length}',
                                   style: const TextStyle(
@@ -146,15 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
-
               // Upcoming Schedule
               const Text(
                 'Upcoming Schedule',
@@ -190,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(left: 8),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [    
+                                      children: [
                                         Text(
                                           hasUpcoming ? appointment['doctor'] : 'Dr. Asha Vali',
                                           style: const TextStyle(
@@ -208,10 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         const SizedBox(height: 12),
                                         Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 6,
-                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(30),
@@ -219,8 +212,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Icon(Icons.schedule, size: 18, color: Colors.black54),
-                                              SizedBox(width: 8),
+                                              const Icon(Icons.schedule, size: 18, color: Colors.black54),
+                                              const SizedBox(width: 8),
                                               Text(
                                                 hasUpcoming ? appointment['time'] : 'May 28, 9:00 a.m.',
                                                 style: const TextStyle(
@@ -274,7 +267,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 24),
-
               // My Subscriptions
               Container(
                 width: double.infinity,
@@ -306,38 +298,99 @@ class _HomeScreenState extends State<HomeScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xEEDCD7FF),
-                        border: Border.all(
-                          color: Color(0xFFB8A9F4),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Column(
-                        children: [
-                          Text(
-                            'Health Goals?',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
+                    subscribedCategories.isEmpty
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: const Color(0xEEDCD7FF),
+                              border: Border.all(
+                                color: Color(0xFFB8A9F4),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Column(
+                              children: [
+                                Text(
+                                  'Health Goals?',
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Let’s see if we can help.',
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: subscribedCategories.map((category) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/subscription-detail',
+                                    arguments: {
+                                      'title': category['title'],
+                                      'description': category['description'],
+                                      'tips': category['tips'],
+                                    },
+                                  );
+                                },
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                    margin: const EdgeInsets.symmetric(vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF3E8FF),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: const Color(0xFFB8A9F4),
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                category['title'],
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                category['description'],
+                                                style: const TextStyle(fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black54),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Let’s see if we can help.',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/subscriptions');
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFE8F0FE),
+                        backgroundColor: const Color(0xFFE8F0FE),
                         foregroundColor: Colors.black,
                         elevation: 0,
                         minimumSize: const Size(double.infinity, 48),
@@ -357,7 +410,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-
               // Finish Intake
               Container(
                 width: double.infinity,
@@ -413,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pushNamed(context, '/intake-form');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFE8F0FE),
+                        backgroundColor: const Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -477,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pushNamed(context, '/survey-carelink');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFE8F0FE),
+                        backgroundColor: const Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -503,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pushNamed(context, '/survey-provider');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFE8F0FE),
+                        backgroundColor: const Color(0xFFE8F0FE),
                         minimumSize: const Size(double.infinity, 48),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -528,4 +580,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

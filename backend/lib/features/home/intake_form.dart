@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class CarelinkIntakeForm extends StatefulWidget {
   const CarelinkIntakeForm({super.key});
@@ -159,6 +161,15 @@ class _CarelinkIntakeFormState extends State<CarelinkIntakeForm> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 0,
+        onTabSelected: (index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

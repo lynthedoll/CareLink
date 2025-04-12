@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/navigation_bar.dart';
+import '../../navigation/main_screen_wrapper.dart';
 
 class CarelinkExperienceSurvey extends StatefulWidget {
   const CarelinkExperienceSurvey({super.key});
@@ -62,6 +64,7 @@ class _CarelinkExperienceSurveyState extends State<CarelinkExperienceSurvey> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         backgroundColor: const Color(0xFFE4D7FF),
@@ -71,7 +74,6 @@ class _CarelinkExperienceSurveyState extends State<CarelinkExperienceSurvey> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      backgroundColor: const Color(0xFFF9F9F9),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
@@ -102,6 +104,17 @@ class _CarelinkExperienceSurveyState extends State<CarelinkExperienceSurvey> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 0,
+        onTabSelected: (int index) {
+          if (index == 0 || index == 3) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+            );
+          }
+        },
       ),
     );
   }
