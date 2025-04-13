@@ -60,6 +60,13 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
     );
   }
 
+  void _goBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 0)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +76,15 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: BackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.popUntil(context, ModalRoute.withName('/subscriptions'));
+            Future.delayed(const Duration(milliseconds: 200), () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 0)),
+              );
+            });
+          },
           color: Colors.black,
         ),
       ),
@@ -116,12 +131,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
       bottomNavigationBar: CustomNavigationBar(
         selectedIndex: 0,
         onTabSelected: (int index) {
-          if (index == 0 || index == 3) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
-            );
-          }
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
         },
       ),
     );

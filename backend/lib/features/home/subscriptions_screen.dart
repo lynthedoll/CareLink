@@ -140,6 +140,7 @@ class SubscriptionsScreen extends StatelessWidget {
         'Consult CareLink for pain relief or mobility screening.'
       ],
     },
+  // ... add any new categories here ...
   ];
 
   @override
@@ -151,7 +152,12 @@ class SubscriptionsScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: BackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const MainScreenWrapper(initialTab: 0)),
+            );
+          },
           color: Colors.black,
         ),
       ),
@@ -216,7 +222,12 @@ class SubscriptionsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: CustomNavigationBar(
         selectedIndex: 0,
-        onTabSelected: (int index) {},
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

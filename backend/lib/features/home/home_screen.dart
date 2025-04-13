@@ -13,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void didChangeDependencies() {
+    // Rebuild screen whenever user returns to Home
+    super.didChangeDependencies();
+    setState(() {});
+  }
+  
   void _onProfileTapped(BuildContext context) {
     Navigator.pushReplacement(
       context,
