@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../notifications/notification_data.dart';
 import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart'; // ✅ Add this for navigation bar
 
 class AppointmentConfirmationScreen extends StatelessWidget {
   const AppointmentConfirmationScreen({super.key});
@@ -29,7 +30,6 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     return '${monthNames[date.month]} $day$suffix, ${date.year}';
   }
 
-
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
@@ -43,20 +43,19 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     final age = args['age'];
     final gender = args['gender'];
     final reason = args['reason'];
-    
+
     // Create a formatted notification
     final notificationMessage =
         'Appointment with $doctor ($specialty) on ${_formatPrettyDate(date)} at $time.';
-        updateLatestAppointment({
-          'date': date,
-          'time': time,
-          'doctor': doctor,
-          'specialty': specialty,
-          'image': image,
-        });
 
+    updateLatestAppointment({
+      'date': date,
+      'time': time,
+      'doctor': doctor,
+      'specialty': specialty,
+      'image': image,
+    });
 
-    // Add to notifications list and reset badge view
     addNotification(notificationMessage);
 
     return Scaffold(
@@ -74,6 +73,7 @@ class AppointmentConfirmationScreen extends StatelessWidget {
         title: const Text('Appointment Confirmed'),
         elevation: 0,
       ),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -129,6 +129,16 @@ class AppointmentConfirmationScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      // ✅ Add bottom navigation bar
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 3,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

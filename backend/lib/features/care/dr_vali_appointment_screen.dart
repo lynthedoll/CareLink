@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class DrValiAppointmentScreen extends StatefulWidget {
   const DrValiAppointmentScreen({super.key});
@@ -122,6 +124,7 @@ class _DrValiAppointmentScreenState extends State<DrValiAppointmentScreen> {
         title: const Text('Schedule Appointment'),
         elevation: 0,
       ),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -202,6 +205,15 @@ class _DrValiAppointmentScreenState extends State<DrValiAppointmentScreen> {
               ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 3,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

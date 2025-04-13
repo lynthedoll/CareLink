@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class DrThompsonAppointmentScreen extends StatefulWidget {
   const DrThompsonAppointmentScreen({super.key});
@@ -50,8 +52,7 @@ class _DrThompsonAppointmentScreenState extends State<DrThompsonAppointmentScree
 
   String formatPrettyDate(DateTime date) {
     const monthNames = [
-      '',
-      'January', 'February', 'March', 'April', 'May', 'June',
+      '', 'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
@@ -66,8 +67,7 @@ class _DrThompsonAppointmentScreenState extends State<DrThompsonAppointmentScree
                     ? 'rd'
                     : 'th';
 
-    final formatted = '${monthNames[date.month]} $day$suffix, ${date.year}';
-    return formatted;
+    return '${monthNames[date.month]} $day$suffix, ${date.year}';
   }
 
   void _onTimeSelected(String slot) {
@@ -125,6 +125,7 @@ class _DrThompsonAppointmentScreenState extends State<DrThompsonAppointmentScree
         title: const Text('Schedule Appointment'),
         elevation: 0,
       ),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -205,6 +206,15 @@ class _DrThompsonAppointmentScreenState extends State<DrThompsonAppointmentScree
               ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 3,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

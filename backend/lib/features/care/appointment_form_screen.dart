@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class AppointmentFormScreen extends StatefulWidget {
   const AppointmentFormScreen({super.key});
@@ -41,6 +43,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
         title: const Text('Appointment Form'),
         elevation: 0,
       ),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -120,6 +123,15 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 3,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }
