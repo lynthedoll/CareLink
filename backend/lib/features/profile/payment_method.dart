@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/navigation_bar.dart';
+import '../../navigation/main_screen_wrapper.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({super.key});
@@ -101,6 +103,15 @@ class PaymentScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 4,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

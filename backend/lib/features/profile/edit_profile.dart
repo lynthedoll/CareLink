@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -69,12 +71,21 @@ class EditProfileScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
-                    ),
+                  ),
                 ),
               ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 4,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../care/care_screen.dart'; // import the favorite list
+import '../care/care_screen.dart';
+import '../../navigation/main_screen_wrapper.dart';
+import '../../widgets/navigation_bar.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
@@ -81,18 +83,26 @@ class FavoriteScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(doc['name']!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
-                            Text(doc['specialty']!,
-                                style: const TextStyle(color: Colors.black54)),
+                            Text(
+                              doc['name']!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              doc['specialty']!,
+                              style: const TextStyle(color: Colors.black54),
+                            ),
                             const SizedBox(height: 4),
                             Row(
                               children: [
                                 const Icon(Icons.star, size: 16, color: Colors.purple),
                                 const SizedBox(width: 4),
-                                Text(doc['rating']!,
-                                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                                Text(
+                                  doc['rating']!,
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
                                 const SizedBox(width: 4),
                                 Text("(${doc['reviews']} reviews)"),
                               ],
@@ -105,6 +115,15 @@ class FavoriteScreen extends StatelessWidget {
                 );
               },
             ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 4,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreenWrapper(initialTab: index)),
+          );
+        },
+      ),
     );
   }
 }

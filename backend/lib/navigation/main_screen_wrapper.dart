@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../features/home/home_screen.dart';
 import '../features/meds/med_screen.dart';
+import '../features/communication/communication_screen.dart'; // ← NEW
 import '../features/care/care_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../widgets/navigation_bar.dart';
@@ -26,18 +27,16 @@ class _MainScreenWrapperState extends State<MainScreenWrapper> {
     _screens = const [
       HomeScreen(),
       MedScreen(),
-      SizedBox.shrink(), // Placeholder for the "+" icon
+      CommunicationScreen(), // ← REPLACED the SizedBox with your new screen
       CareScreen(),
       ProfileScreen(),
     ];
   }
 
   void _onTabTapped(int index) {
-    if (index != 2) {
-      setState(() {
-        _currentIndex = index;
-      });
-    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override

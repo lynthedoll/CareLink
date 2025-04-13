@@ -10,7 +10,8 @@ class CustomNavigationBar extends StatelessWidget {
     required this.onTabSelected,
   }) : super(key: key);
 
-  static const Color kActiveTabColor = Color(0xFF4D83C2); // Blue
+  // Updated active color (closer to blue-violet)
+  static const Color kActiveTabColor = Color(0xFF3A66A7); 
   static const Color kInactiveTabColor = Colors.black;
 
   BottomNavigationBarItem buildNavItem({
@@ -60,16 +61,13 @@ class CustomNavigationBar extends StatelessWidget {
             width: 50,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: Color(0xFF3A66A7), // Blue background
               boxShadow: [
                 BoxShadow(color: Colors.black12, blurRadius: 6),
               ],
             ),
-            child: Center(
-              child: Image.asset(
-                'assets/icons/plus_icon.png',
-                height: 30,
-              ),
+            child: const Center(
+              child: Icon(Icons.medical_services, color: Colors.white, size: 28),
             ),
           ),
           label: '',

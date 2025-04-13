@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../widgets/navigation_bar.dart';
+import '../../navigation/main_screen_wrapper.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -54,6 +56,17 @@ class SettingsScreen extends StatelessWidget {
             subtitle: Text('CareLink v1.0.0'),
           ),
         ],
+      ),
+      bottomNavigationBar: CustomNavigationBar(
+        selectedIndex: 4,
+        onTabSelected: (int index) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MainScreenWrapper(initialTab: index),
+            ),
+          );
+        },
       ),
     );
   }
