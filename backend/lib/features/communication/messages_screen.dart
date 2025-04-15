@@ -7,11 +7,12 @@ class MessagesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isThompson = doctorData['name'] == 'Dr. Linda Thompson';
+    final String doctorName = doctorData['name'] ?? '';
+    final bool isVali = doctorName == 'Dr. Asha Vali';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(doctorData['name']!, style: const TextStyle(color: Colors.black)),
+        title: Text(doctorName, style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 1,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -43,9 +44,8 @@ class MessagesScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(16),
-              children: isThompson
-                  ? [const Text('Say hi to Dr. Thompson and introduce yourself! 👋')]
-                  : const [
+              children: isVali
+                  ? const [
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -57,6 +57,9 @@ class MessagesScreen extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Text("Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)"),
                       ),
+                    ]
+                  : [
+                      Text('Say hi to $doctorName and introduce yourself! 👋'),
                     ],
             ),
           ),
