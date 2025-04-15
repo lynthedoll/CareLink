@@ -25,6 +25,8 @@ import 'features/notifications/notifications_screen.dart';
 import 'features/care/dr_vali_appointment_screen.dart';
 import 'features/home/subscription_detail_screen.dart' as detail;
 import 'features/home/subscriptions_screen.dart';
+import 'features/communication/audio_call_screen.dart';
+import 'features/communication/video_call_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -83,6 +85,8 @@ class MyApp extends StatelessWidget {
         '/care-tab-vali': (context) => const DrValiAppointmentScreen(),
         '/subscriptions': (context) => const SubscriptionsScreen(),
         '/subscription-detail': (context) => const detail.SubscriptionDetailScreen(),
+        '/audio-call': (context) => const AudioCallScreen(),
+        '/video-call': (context) => const VideoCallScreen(),
 
         // Other routes
 

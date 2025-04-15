@@ -4,6 +4,7 @@ import 'dart:math';
 import '../../navigation/main_screen_wrapper.dart';
 import '../../widgets/navigation_bar.dart';
 
+
 class DrThompsonAppointmentScreen extends StatefulWidget {
   const DrThompsonAppointmentScreen({super.key});
 
