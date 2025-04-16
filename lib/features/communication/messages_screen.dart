@@ -1,38 +1,105 @@
 import 'package:flutter/material.dart';
+import 'audio_call_screen.dart';
+import 'video_call_screen.dart';
 
-class MessagesScreen extends StatelessWidget {
-  final Map<String, String> doctorData;
+class MessagesScreen extends StatefulWidget {
+  final String doctorName;
+  final String doctorImagePath;
+  final List<Map<String, dynamic>> chatHistory;
 
-  const MessagesScreen({super.key, required this.doctorData});
+  const MessagesScreen({
+    super.key,
+    required this.doctorName,
+    required this.doctorImagePath,
+    required this.chatHistory,
+  });
+
+  @override
+  State<MessagesScreen> createState() => _MessagesScreenState();
+}
+
+class _MessagesScreenState extends State<MessagesScreen> {
+  final TextEditingController _controller = TextEditingController();
+  List<Map<String, String>> messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    messages = List.from(widget.chatHistory);
+  }
+
+  void _sendMessage(String text) {
+    if (text.trim().isEmpty) return;
+
+    setState(() {
+      messages.add({
+        'sender': 'user',
+        'text': text,
+        'time': TimeOfDay.now().format(context),
+      });
+    });
+    _controller.clear();
+  }
+
+  Widget _buildMessage(Map<String, String> msg) {
+    final isUser = msg['sender'] == 'user';
+    final alignment = isUser ? Alignment.centerRight : Alignment.centerLeft;
+    final color = isUser ? Colors.purple[100] : Colors.blue[100];
+    final textColor = Colors.black87;
+
+    return Align(
+      alignment: alignment,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment:
+              isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Text(msg['text'] ?? '', style: TextStyle(color: textColor)),
+            if (msg['time'] != null)
+              Text(
+                'Delivered • ${msg['time']}',
+                style: const TextStyle(fontSize: 10, color: Colors.black54),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bool isThompson = doctorData['name'] == 'Dr. Linda Thompson';
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(doctorData['name']!, style: const TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        iconTheme: const IconThemeData(color: Colors.black),
+        title: Row(
+          children: [
+            CircleAvatar(backgroundImage: AssetImage(widget.doctorImagePath)),
+            const SizedBox(width: 10),
+            Text(widget.doctorName),
+          ],
+        ),
+        backgroundColor: const Color(0xFFE4D7FF),
         actions: [
           IconButton(
             icon: const Icon(Icons.call),
             onPressed: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/audio-call',
-                arguments: doctorData,
+                MaterialPageRoute(builder: (_) => const AudioCallScreen()),
               );
             },
           ),
           IconButton(
             icon: const Icon(Icons.videocam),
             onPressed: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/video-call',
-                arguments: doctorData,
+                MaterialPageRoute(builder: (_) => const VideoCallScreen()),
               );
             },
           ),
@@ -41,37 +108,19 @@ class MessagesScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: isThompson
-                  ? [const Text('Say hi to Dr. Thompson and introduce yourself! 👋')]
-                  : const [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Hi Jamiliah! I look forward to seeing you for our appointment on May 28. Did you get a chance to complete your intake form yet?",
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text("Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)"),
-                      ),
-                    ],
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (context, index) => _buildMessage(messages[index]),
             ),
           ),
+          const Divider(height: 1),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.emoji_emotions_outlined),
-                  onPressed: () {
-                    // future emoji/sticker support
-                  },
-                ),
                 Expanded(
                   child: TextField(
+                    controller: _controller,
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',
                       border: OutlineInputBorder(),
@@ -80,13 +129,11 @@ class MessagesScreen extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: () {
-                    // sending message logic
-                  },
+                  onPressed: () => _sendMessage(_controller.text),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
