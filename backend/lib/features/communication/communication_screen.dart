@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'messages_screen.dart';
 import '../notifications/notification_data.dart';
+import 'messages_screen.dart';
 
 class CommunicationScreen extends StatefulWidget {
   const CommunicationScreen({super.key});
@@ -10,56 +10,56 @@ class CommunicationScreen extends StatefulWidget {
 }
 
 class _CommunicationScreenState extends State<CommunicationScreen> {
-  List<Map<String, String>> conversations = [];
-  final List<String> selectedConversations = [];
-  bool isEditMode = false;
+  List<Map<String, dynamic>> conversations = [];
 
   final List<Map<String, String>> _availableDoctors = [
     {
-      "name": "Dr. Linda Thompson",
-      "specialty": "Family Medicine",
-      "image": "assets/icons/dr_thompson.png"
+      'name': 'Dr. Linda Thompson',
+      'specialty': 'Family Medicine',
+      'image': 'assets/icons/dr_thompson.png',
     },
     {
-      "name": "Dr. Asha Vali",
-      "specialty": "Internal Medicine",
-      "image": "assets/icons/dr_vali.png"
+      'name': 'Dr. Asha Vali',
+      'specialty': 'Internal Medicine',
+      'image': 'assets/icons/dr_vali.png',
     },
     {
-      "name": "Dr. Raj Patel",
-      "specialty": "Radiologist",
-      "image": "assets/icons/dr_patel.png"
+      'name': 'Dr. Raj Patel',
+      'specialty': 'Pediatrics',
+      'image': 'assets/icons/dr_patel.png',
     },
     {
-      "name": "Dr. Elena Martinez",
-      "specialty": "Cardiologist",
-      "image": "assets/icons/dr_martinez.png"
-    },
-    {
-      "name": "Dr. Michael Anderson",
-      "specialty": "Pediatrician",
-      "image": "assets/icons/dr_anderson.png"
-    },
-    {
-      "name": "Dr. Jamal Yusuf",
-      "specialty": "Oncologists",
-      "image": "assets/icons/dr_yusuf.png"
+      'name': 'Dr. Leila Martinez',
+      'specialty': 'Cardiology',
+      'image': 'assets/icons/dr_martinez.png',
     },
   ];
 
   @override
   void initState() {
     super.initState();
-    _loadConversations();
+    _initializeConversations();
   }
 
-  void _loadConversations() {
+  void _initializeConversations() {
     conversations = [
       {
         'name': 'Dr. Asha Vali',
+        'preview': 'Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)',
         'image': 'assets/icons/dr_vali.png',
-        'lastMessage': 'Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)',
-        'date': 'Mar 12, 2025',
+        'timestamp': '3/9/2025 11:37 AM',
+        'chat': [
+          {
+            'sender': 'doctor',
+            'text': 'Hi Jamiliah! I look forward to seeing you for our appointment on March 12. Did you get a chance to complete your intake form yet? It’s ready for you on the home tab.',
+            'timestamp': '3/9/2025 11:37 AM'
+          },
+          {
+            'sender': 'user',
+            'text': 'Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)',
+            'timestamp': '3/9/2025 12:06 PM'
+          },
+        ],
       },
     ];
 
@@ -67,165 +67,130 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         latestScheduledAppointment!['doctor'] == 'Dr. Linda Thompson') {
       conversations.insert(0, {
         'name': 'Dr. Linda Thompson',
-        'image': 'assets/icons/dr_thompson.png',
-        'lastMessage': 'Say hi to Dr. Thompson and introduce yourself!',
-        'date': '',
+        'preview': 'Say hi to Dr. Thompson and let her know you’re ready to chat!',
+        'image': 'assets/icons/dr_thompson.png', 
+        'chat': <Map<String, String>>[],
       });
     }
   }
 
-  void _openDoctorPicker() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: _availableDoctors.map((doctor) {
-            return ListTile(
-              leading: CircleAvatar(backgroundImage: AssetImage(doctor['image']!)),
-              title: Text(doctor['name']!),
-              subtitle: Text(doctor['specialty']!),
-              onTap: () {
-                Navigator.pop(context);
-                final alreadyExists =
-                    conversations.any((c) => c['name'] == doctor['name']);
-                if (!alreadyExists) {
-                  setState(() {
-                    conversations.insert(0, {
-                      'name': doctor['name']!,
-                      'image': doctor['image']!,
-                      'lastMessage': 'Say hi to ${doctor['name']} and introduce yourself!',
-                      'date': '',
-                    });
-                  });
-                }
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => MessagesScreen(doctorData: doctor),
-                  ),
-                );
-              },
-            );
-          }).toList(),
-        );
-      },
-    );
+  void _startConversation(Map<String, String> doctor) {
+    final alreadyExists = conversations.any((c) => c['name'] == doctor['name']);
+    if (!alreadyExists) {
+      setState(() {
+        conversations.insert(0, {
+          'name': doctor['name'],
+          'preview': 'Say hi to ${doctor['name']} to get started!',
+          'image': doctor['image'],
+          'timestamp': _formatDate(DateTime.now()),
+          'chat': <Map<String, String>>[],
+        });
+      });
+    }
   }
 
-  void _toggleEditMode() {
+  void _deleteConversation(int index) {
     setState(() {
-      isEditMode = !isEditMode;
-      selectedConversations.clear();
+      conversations.removeAt(index);
     });
   }
 
-  void _handleSelection(String name, bool selected) {
-    setState(() {
-      if (selected) {
-        selectedConversations.add(name);
-      } else {
-        selectedConversations.remove(name);
-      }
-    });
-  }
-
-  void _deleteSelectedConversations() {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Delete Conversations'),
-        content: const Text('Are you sure you want to delete the selected conversation(s)?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                conversations.removeWhere(
-                  (convo) => selectedConversations.contains(convo['name']),
-                );
-                selectedConversations.clear();
-                isEditMode = false;
-              });
-              Navigator.pop(context);
-            },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
+  String _formatDate(DateTime date) {
+    final monthNames = [
+      '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '${monthNames[date.month]} ${date.day}, ${date.year}';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF9F9F9),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(isEditMode ? Icons.close : Icons.edit, color: Colors.black),
-          onPressed: _toggleEditMode,
-        ),
-        title: const Text(
-          'Messages',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('Communications'),
+        backgroundColor: const Color(0xFFE4D7FF),
         actions: [
-          if (isEditMode && selectedConversations.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: _deleteSelectedConversations,
-            ),
-          if (!isEditMode)
-            IconButton(
-              icon: const Icon(Icons.person_add_alt_1, color: Colors.black),
-              onPressed: _openDoctorPicker,
-            ),
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              if (conversations.isNotEmpty) {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => ListView.builder(
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      final convo = conversations[index];
+                      return ListTile(
+                        leading: CircleAvatar(backgroundImage: AssetImage(convo['image'])),
+                        title: Text(convo['name']),
+                        subtitle: Text(convo['preview']),
+                        trailing: const Icon(Icons.delete),
+                        onTap: () => _deleteConversation(index),
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => ListView(
+                  children: _availableDoctors.map((doc) {
+                    return ListTile(
+                      leading: CircleAvatar(backgroundImage: AssetImage(doc['image']!)),
+                      title: Text(doc['name']!),
+                      subtitle: Text(doc['specialty']!),
+                      onTap: () {
+                        Navigator.pop(context);
+                        _startConversation(doc);
+                      },
+                    );
+                  }).toList(),
+                ),
+              );
+            },
+          ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: conversations.length,
-        itemBuilder: (context, index) {
-          final convo = conversations[index];
-          final isSelected = selectedConversations.contains(convo['name']);
-
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(convo['image']!),
-              radius: 28,
-            ),
-            title: Text(
-              convo['name']!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text(convo['lastMessage']!),
-            trailing: isEditMode
-                ? Checkbox(
-                    value: isSelected,
-                    onChanged: (bool? value) {
-                      _handleSelection(convo['name']!, value ?? false);
-                    },
-                  )
-                : Text(convo['date']!),
-            onTap: isEditMode
-                ? () {
-                    _handleSelection(convo['name']!, !isSelected);
-                  }
-                : () {
-                    Navigator.push(
+      body: conversations.isEmpty
+          ? const Center(child: Text("No active conversations"))
+          : ListView.builder(
+              itemCount: conversations.length,
+              itemBuilder: (context, index) {
+                final convo = conversations[index];
+                return ListTile(
+                  leading: CircleAvatar(backgroundImage: AssetImage(convo['image'])),
+                  title: Text(convo['name']),
+                  subtitle: Text(convo['preview']),
+                  trailing: Text(convo['timestamp'] ?? ''),
+                  onTap: () async {
+                    final updatedChat = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => MessagesScreen(doctorData: convo),
+                        builder: (_) => MessagesScreen(
+                          doctorName: convo['name'],
+                          doctorImagePath: convo['image'],
+                          chatHistory: List<Map<String, String>>.from(convo['chat']),
+                        ),
                       ),
                     );
+
+                    if (updatedChat != null && updatedChat is List<Map<String, String>>) {
+                      setState(() {
+                        conversations[index]['chat'] = updatedChat;
+                        conversations[index]['preview'] = updatedChat.last['text']!;
+                        conversations[index]['timestamp'] = updatedChat.last['timestamp']!;
+                      });
+                    }
                   },
-          );
-        },
-      ),
+                );
+              },
+            ),
     );
   }
 }
