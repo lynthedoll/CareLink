@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'audio_call_screen.dart';
-import 'video_call_screen.dart';
 
 class MessagesScreen extends StatefulWidget {
   final String doctorName;
@@ -19,8 +17,8 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
-  final TextEditingController _messageController = TextEditingController();
   late List<Map<String, String>> messages;
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -28,154 +26,137 @@ class _MessagesScreenState extends State<MessagesScreen> {
     messages = List<Map<String, String>>.from(widget.chatHistory);
   }
 
-  void _sendMessage() {
-    final text = _messageController.text.trim();
-    if (text.isNotEmpty) {
-      final now = DateTime.now();
-      final timestamp =
-          "${now.hour % 12 == 0 ? 12 : now.hour % 12}:${now.minute.toString().padLeft(2, '0')} ${now.hour >= 12 ? 'PM' : 'AM'}";
+  void _sendMessage(String text) {
+    if (text.trim().isEmpty) return;
 
-      setState(() {
-        messages.add({
-          'sender': 'user',
-          'text': text,
-          'timestamp': timestamp,
-        });
+    final timestamp = _formatTimestamp(DateTime.now());
+
+    setState(() {
+      messages.add({
+        'sender': 'user',
+        'text': text,
+        'timestamp': timestamp,
       });
+    });
 
-      _messageController.clear();
-    }
+    _controller.clear();
   }
 
-  Widget _buildMessageBubble(Map<String, String> message, bool isLastUserMessage) {
+  String _formatTimestamp(DateTime dateTime) {
+    final hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
+    final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    return '${dateTime.month}/${dateTime.day}/${dateTime.year} $hour:$minute $ampm';
+  }
+
+  Widget _buildBubble(Map<String, String> message) {
     final isUser = message['sender'] == 'user';
-    final alignment =
-        isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final bgColor = isUser ? const Color(0xFFD6E8FA) : const Color(0xFFE6DBFF);
-    final radius = BorderRadius.only(
-      topLeft: const Radius.circular(16),
-      topRight: const Radius.circular(16),
-      bottomLeft: isUser ? const Radius.circular(16) : const Radius.circular(0),
-      bottomRight: isUser ? const Radius.circular(0) : const Radius.circular(16),
-    );
+    final alignment = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    final bubbleColor = isUser ? const Color(0xFFB388EB) : const Color(0xFFE0E0E0);
+    final textColor = isUser ? Colors.white : Colors.black87;
 
     return Column(
       crossAxisAlignment: alignment,
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          padding: const EdgeInsets.all(12),
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: radius,
+            color: bubbleColor,
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
             message['text'] ?? '',
-            style: const TextStyle(fontSize: 15),
+            style: TextStyle(color: textColor),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-          child: Column(
-            crossAxisAlignment: alignment,
-            children: [
-              Text(
-                message['timestamp'] ?? '',
-                style: const TextStyle(fontSize: 11, color: Colors.grey),
-              ),
-              if (isUser && isLastUserMessage)
-                const Text(
-                  'Delivered',
-                  style: TextStyle(fontSize: 11, color: Colors.grey),
-                ),
-            ],
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            '${message['timestamp']} • Delivered',
+            style: const TextStyle(fontSize: 10, color: Colors.grey),
           ),
         ),
       ],
     );
   }
 
+  void _endChatAndReturn() {
+    Navigator.pop(context, messages);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final lastUserIndex = messages.lastIndexWhere((msg) => msg['sender'] == 'user');
-
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFE4D7FF),
-        elevation: 0,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage(widget.doctorImagePath),
-              radius: 18,
-            ),
-            const SizedBox(width: 10),
-            Text(widget.doctorName),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.call),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const AudioCallScreen()),
-              );
-            },
+    return WillPopScope(
+      onWillPop: () async {
+        _endChatAndReturn();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFE4D7FF),
+          title: Row(
+            children: [
+              CircleAvatar(backgroundImage: AssetImage(widget.doctorImagePath)),
+              const SizedBox(width: 8),
+              Text(widget.doctorName),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.videocam),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const VideoCallScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final msg = messages[index];
-                return _buildMessageBubble(msg, index == lastUserIndex);
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.phone),
+              onPressed: () {
+                Navigator.pushNamed(context, '/audio-call');
               },
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: const BoxDecoration(color: Colors.white),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
+            IconButton(
+              icon: const Icon(Icons.videocam),
+              onPressed: () {
+                Navigator.pushNamed(context, '/video-call');
+              },
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return _buildBubble(messages[index]);
+                },
+              ),
+            ),
+            const Divider(height: 1),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        hintText: 'Type a message...',
+                        filled: true,
+                        fillColor: Color(0xFFF1F1F1),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
                       ),
-                      fillColor: const Color(0xFFF0F0F0),
-                      filled: true,
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Color(0xFF8C7AE6)),
-                  onPressed: _sendMessage,
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: () => _sendMessage(_controller.text),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

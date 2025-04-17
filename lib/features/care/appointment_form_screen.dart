@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../navigation/main_screen_wrapper.dart';
 import '../../widgets/navigation_bar.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentFormScreen extends StatefulWidget {
   const AppointmentFormScreen({super.key});

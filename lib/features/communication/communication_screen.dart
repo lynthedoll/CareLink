@@ -47,17 +47,17 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         'name': 'Dr. Asha Vali',
         'preview': 'Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)',
         'image': 'assets/icons/dr_vali.png',
-        'timestamp': 'Mar 12, 2025',
+        'timestamp': '3/9/2025 11:37 AM',
         'chat': [
           {
             'sender': 'doctor',
             'text': 'Hi Jamiliah! I look forward to seeing you for our appointment on March 12. Did you get a chance to complete your intake form yet? It’s ready for you on the home tab.',
-            'timestamp': 'Mar 9, 2025 11:37 AM'
+            'timestamp': '3/9/2025 11:37 AM'
           },
           {
             'sender': 'user',
             'text': 'Hi Dr. Vali! Not yet.. but I will get it done ASAP. :)',
-            'timestamp': 'Mar 9, 2025 12:06 PM'
+            'timestamp': '3/9/2025 12:06 PM'
           },
         ],
       },
@@ -68,10 +68,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
       conversations.insert(0, {
         'name': 'Dr. Linda Thompson',
         'preview': 'Say hi to Dr. Thompson and let her know you’re ready to chat!',
-        'image': 'assets/icons/dr_thompson.png',
-        'timestamp': latestScheduledAppointment!['date'] != null
-            ? _formatDate(latestScheduledAppointment!['date'])
-            : '',
+        'image': 'assets/icons/dr_thompson.png', 
         'chat': <Map<String, String>>[],
       });
     }
@@ -171,17 +168,25 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                   title: Text(convo['name']),
                   subtitle: Text(convo['preview']),
                   trailing: Text(convo['timestamp'] ?? ''),
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    final updatedChat = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => MessagesScreen(
                           doctorName: convo['name'],
                           doctorImagePath: convo['image'],
-                          chatHistory: convo['chat'],
+                          chatHistory: List<Map<String, String>>.from(convo['chat']),
                         ),
                       ),
                     );
+
+                    if (updatedChat != null && updatedChat is List<Map<String, String>>) {
+                      setState(() {
+                        conversations[index]['chat'] = updatedChat;
+                        conversations[index]['preview'] = updatedChat.last['text']!;
+                        conversations[index]['timestamp'] = updatedChat.last['timestamp']!;
+                      });
+                    }
                   },
                 );
               },
